@@ -6,7 +6,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
     && chmod +x docker-entrypoint.sh \
     && chmod +x manage.py \
     && apt-get update \
-    && apt-get install nginx \
+    && apt-get  -y --no-install-recommends install nginx \
     && mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
 COPY ./nginx.conf /etc/nginx/conf.d/nginx.conf
 EXPOSE 8000
