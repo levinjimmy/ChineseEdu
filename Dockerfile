@@ -7,7 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt \
     && chmod +x manage.py \
     && apt-get update \
     && apt-get  -y --no-install-recommends install nginx \
-    && mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
-COPY ./nginx.conf /etc/nginx/conf.d/nginx.conf
-EXPOSE 8000
+    && rm /etc/nginx/sites-enabled/default
+ADD sites-enabled/ /etc/nginx/sites-enabled/
 CMD ./docker-entrypoint.sh
