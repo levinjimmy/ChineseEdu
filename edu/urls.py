@@ -18,5 +18,5 @@ from django.contrib import admin
 from CEdu import urls as CEdu_urls
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^cedu/',include(CEdu_urls,namespace='cedu')),
+    url(r'^cedu/',include(CEdu_urls,namespace='CEdu')),
 ]
