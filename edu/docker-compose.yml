@@ -1,22 +1,41 @@
 web:
-  build: .
-  ports:
-    - "23456:8000"
+  restart: always
+  image: XXX
+  expose:
+    - "8000"
   links:
     - mysql:mysql
- #   - redis:redis
-  env_file: .env
-#  command: /code/manage.py runserver 0.0.0.0:8000
-
-mysql:
-  image: daocloud.io/library/mysql
+  volumes:
+    - /usr/src/app
+    - /usr/src/app/static
   environment:
-    - MYSQL_DATABASE=django
-    - MYSQL_ROOT_PASSWORD=mysql
-  ports:
-    - "3306:3306"
+    DEBUG: 'true'
+  command: /usr/local/bin/gunicorn edu.wsgi:application -w 2 -b :8000
 
-# redis:
-#   image: daocloud.io/redis:latest
-#   ports:
-# - "6379:6379"
+nginx:
+  restart: always
+  build: XXX
+  ports:
+    - "80:80"
+  volumes:
+    - /www/static
+  volumes_from:
+    - web
+  links:
+    - web:web
+
+postgres:
+  restart: always
+  image: postgres:latest
+  ports:
+    - "5432:5432"
+  volumes:
+    - pgdata:/var/lib/postgresql/data/
+
+redis:
+  restart: always
+  image: redis:latest
+  ports:
+    - "6379:6379"
+  volumes:
+- redisdata:/data
